@@ -1,5 +1,5 @@
 # MY CHNAGES
-secrets.toml
+.env
 notebook*/
 venv*/
 *.excalidraw
