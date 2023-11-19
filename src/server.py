@@ -1,43 +1,37 @@
-import base64
 import requests
 from app_config import config
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+guruzee = FastAPI()
 
 
-# Function to encode the local image into base64 to be send over HTTP
-def local_image_to_url(image_path):
-    with open(image_path, "rb") as image_file:
-        base64_image = base64.b64encode(image_file.read()).decode("utf-8")
-    return {"url": f"data:image/jpeg;base64,{base64_image}"}
+class SingleImageData(BaseModel):
+    data: str
 
 
-def analyze_single_image(image_path: str, instruction: str, mode="url"):  # "local"
-    if mode == "local":
-        image_path = local_image_to_url(image_path)
+def __analyze_single_image(image_data: str):
+    """
+    Sends the user supplied image with system instructions to GPT-4, returns the
+    received response in JSON format.
+    """
+    image_data = {"url": f"data:image/jpeg;base64,{image_data}"}
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {config.openai_api_key}",
+        "Authorization": f"Bearer {config.OPENAI_KEY}",
     }
     payload = {
         "model": "gpt-4-vision-preview",
-        "temperature": 0.2,
+        "temperature": 0.2,  # low temperature because we want deterministic responses
         "messages": [
-            {
-                "role": "system",
-                "contents": """You an expert primary school maths teacher. Given an image 
-             of a primary school maths problem you can analyze the problem and produce
-             a detailed solution with explanation."""
-                # In addition to this, given a
-                # collection images from primary school maths text book you can generate
-                # questions and there answers based on the topic shown in text book images,
-                # you will provide the detailed answers with explanation""",
-            },
+            {"role": "system", "content": config.solver_persona},
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": instruction},
+                    {"type": "text", "text": config.solver_instruction},
                     {
                         "type": "image_url",
-                        "image_url": image_path,
+                        "image_url": image_data,
                     },
                 ],
             },
@@ -45,16 +39,15 @@ def analyze_single_image(image_path: str, instruction: str, mode="url"):  # "loc
         "max_tokens": 600,
     }
 
-    response = requests.post(config.openai_api_endpoint, headers=headers, json=payload)
+    response = requests.post(config.OPENAI_API_ENDPOINT, headers=headers, json=payload)
     return response.json()
 
 
-def solve(problem_image: str, mode="local"):
-    print("P R O B L E M:\n--------------")
-    display(Image(filename=problem_image))  # only in notebook
-    instruction = """Analyze the 4th grade math problem in the image. Strictly first provide the answer to the problem and then only the solution explanation. 
-    Put a newline after each 80 chars"""
-    output = analyze_image(problem_image, instruction, mode)
-    print("A N S W E R:\n------------")
-    print(output["choices"][0]["message"]["content"])
+@guruzee.post("/solve")
+async def solve(image: SingleImageData):
+    """
+    Invokes the OpenAI API passing the raw image bytes and returns the
+    response to client
+    """
+    output = __analyze_single_image(image.data)
     return output["choices"][0]["message"]["content"]

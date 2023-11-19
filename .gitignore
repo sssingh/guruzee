@@ -2,6 +2,7 @@
 .env
 notebook*/
 venv*/
+pyvenv.cfg
 *.excalidraw
 .vscode*
 .vscode*/
