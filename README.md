@@ -1,4 +1,5 @@
 
+---
 title: Guruzee
 emoji: 📚
 colorFrom: blue
@@ -8,6 +9,7 @@ sdk_version: 4.4.1
 app_file: src/client.py
 pinned: false
 license: mit
+---
 
 # GuruZee
 ***Where Math Meets Marvel with AI Wizardry for Primary School Prowess! 🧙♂📚✨***
