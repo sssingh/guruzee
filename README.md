@@ -10,6 +10,8 @@ pinned: false
 license: mit
 ---
 
+<a href="https://huggingface.co/spaces/sssingh/guruzee" target="_blank"><img src="https://img.shields.io/badge/click_here_to_open_gradio_app-orange?style=for-the-badge&logo=dependabot"/></a>
+
 # GuruZee
 ***Where Math Meets Marvel with AI Wizardry for Primary School Prowess! 🧙♂📚✨***
 
