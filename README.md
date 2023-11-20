@@ -12,7 +12,7 @@ license: mit
 # GuruZee
 ***Where Math Meets Marvel with AI Wizardry for Primary School Prowess! 🧙♂📚✨***
 
-<img src="https://github.com/sssingh/guruzee/blob/main/assets/title.png?raw=true" width="1000" height="400"/><br><br>  
+<img src="https://github.com/sssingh/guruzee/blob/main/assets/title.jpeg?raw=true" width="1000" height="400"/><br><br>  
 
 ## Introduction
 GuruZee, your go-to guru for primary school math (for now).   
