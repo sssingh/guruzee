@@ -25,12 +25,17 @@ def solve(image_path: str):
     Invokes the GuruZee API passing the raw image bytes and returns the response
     to client
     """
-    print(image_path)
     image_data = __encode_image(image_path=image_path)
     headers = {"Content-Type": "application/json"}
     payload = {"data": image_data}
-    response = requests.post(config.GURUZEE_API_ENDPOINT, headers=headers, json=payload)
-    return response.json()
+    end_point = config.GURUZEE_API_ENDPOINT + "/solve"
+    response = requests.post(end_point, headers=headers, json=payload)
+    # increment the openai access counter and compute count stats
+    mongo.increment_curr_access_count()
+    max_count = config.openai_max_access_count
+    curr_count = config.openai_curr_access_count
+    available_count = max_count - curr_count
+    return response.json(), max_count, curr_count, available_count
 
 
 def create_interface():
@@ -72,8 +77,8 @@ def create_interface():
                     <br>
                     Select/upload an `Image` containing the problem Then hit 
                     `GO!` button.
-                    Alternatively, just select one the pre-configured `Example` image 
-                    from Example section in the bottom**  
+                    Alternatively, just select one of the pre-configured `Example` image 
+                    from the Example section at the bottom**  
                     <br>
                     Visit the [project's repo](https://github.com/sssingh/GuruZee)  
                     <br>
@@ -147,13 +152,13 @@ def create_interface():
                     ],
                     fn=solve,
                     inputs=[image],
-                    outputs=[answer],
+                    outputs=[answer, max_count, curr_count, available_count],
                     run_on_click=True,
                 )
         submit_button.click(
             fn=solve,
             inputs=[image],
-            outputs=[answer],
+            outputs=[answer, max_count, curr_count, available_count],
         )
         clear_button.click(fn=clear, inputs=[], outputs=[image, answer])
         image.clear(fn=clear, inputs=[], outputs=[image, answer])

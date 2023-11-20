@@ -1,5 +1,18 @@
-# GuruZee 
-> Where Math Meets Marvel with AI Wizardry for Primary School Prowess! 🧙♂📚✨
+
+title: Guruzee
+emoji: 📚
+colorFrom: blue
+colorTo: red
+sdk: gradio
+sdk_version: 4.4.1
+app_file: src/client.py
+pinned: false
+license: mit
+
+# GuruZee
+***Where Math Meets Marvel with AI Wizardry for Primary School Prowess! 🧙♂📚✨***
+
+<img src="https://github.com/sssingh/guruzee/blob/main/assets/title.png?raw=true" width="1000" height="400"/><br><br>  
 
 ## Introduction
 GuruZee, your go-to guru for primary school math (for now).   
@@ -20,7 +33,7 @@ Solve a problem
 just select one of the pre-configured `Example` image from Example section at the 
 bottom. The answer and explanation will appear on the right.
 
-<img src="https://github.com/sssingh/guruzee/blob/main/assets/aap=eample.png?raw=true" width="1000" height="450"/><br><br> 
+<img src="https://github.com/sssingh/guruzee/blob/main/assets/app-example.png?raw=true" width="1000" height="450"/><br><br>  
 
 Prepare questions and answers
 -----------------------------
@@ -30,5 +43,5 @@ just select one the pre-configured `Example` image from Example section in the b
 The answer and explanation will appear on the right.
 
 ## App Architecture
-[TODO]
+<img src="https://github.com/sssingh/guruzee/blob/main/assets/wip.jpg?raw=true" width="1000" height="400"/><br><br>  
 
